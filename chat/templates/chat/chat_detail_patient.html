@@ -1,0 +1,149 @@
+{% extends "base_patient.html" %}
+
+{% block title %}Care Thread - {{ chat.doctor.username }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* --- CHAT AREA --- */
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 120px);
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .chat-header-banner {
+        background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+        padding: 20px 30px; color: white;
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    
+    .chat-window {
+        flex-grow: 1; overflow-y: auto; padding: 30px;
+        display: flex; flex-direction: column; gap: 5px; /* Control gap manually in JS */
+        background-color: #f9f9fb;
+    }
+
+    /* --- BUBBLE OVERRIDES --- */
+    .chat-bubble {
+        max-width: 600px; padding: 12px 18px; border-radius: 20px;
+        font-size: 0.95rem; line-height: 1.5; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        display: inline-block; word-wrap: break-word; text-align: left;
+    }
+    .bubble-staff { background: white; color: #1a1a1a; border-bottom-left-radius: 4px; border: 1px solid #eee; }
+    .bubble-user { background: #b91c1c; color: white; border-bottom-right-radius: 4px; }
+    
+    .msg-wrapper { width: 100%; margin-bottom: 12px; display: flex; flex-direction: column; }
+    .msg-left { align-items: flex-start; }
+    .msg-right { align-items: flex-end; }
+    
+    .sender-tag { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #b91c1c; margin-bottom: 4px; margin-left: 4px; }
+
+    /* --- INPUT AREA --- */
+    .sticky-chat-input {
+        padding: 20px 30px; background: white;
+        border-top: 1px solid #eee; display: flex; align-items: center; gap: 15px;
+    }
+    .input-box {
+        flex-grow: 1; background: #f4f5f7; border: 1px solid #e0e0e0;
+        padding: 14px 20px; border-radius: 15px; font-size: 1rem; outline: none;
+        transition: border-color 0.2s;
+    }
+    .input-box:focus { border-color: #b91c1c; background: white; }
+    
+    .icon-btn { color: #b91c1c; font-size: 1.4rem; cursor: pointer; transition: transform 0.2s; border:none; background:none; text-decoration: none !important; }
+    .icon-btn:active { transform: scale(0.9); }
+    .send-circle {
+        width: 45px; height: 45px; background: #b91c1c; color: white !important;
+        border-radius: 12px; display: flex; justify-content: center; align-items: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+    <div class="chat-header-banner">
+        <div class="d-flex align-items-center gap-3">
+            <a href="{% url 'chat_list' %}" class="text-white"><i class="fa-solid fa-chevron-left"></i></a>
+            <div style="width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; font-weight: 800;">
+                {{ chat.doctor.username|slice:":1"|upper }}
+            </div>
+            <div>
+                <h1 style="font-size: 1.1rem; margin:0; font-weight:800;"> {{ chat.doctor.username }}</h1>
+                <p style="font-size: 0.75rem; margin:0; opacity:0.8;"><i class="fa-solid fa-circle text-success" style="font-size: 6px;"></i> Clinical Response Team</p>
+            </div>
+        </div>
+        <div class="d-flex gap-3">
+            <i class="fa-solid fa-phone"></i>
+            <i class="fa-solid fa-video"></i>
+        </div>
+    </div>
+
+    <div class="chat-window" id="chat-box">
+        <!-- Messages loaded incrementally via JS -->
+    </div>
+
+    <form method="post" class="sticky-chat-input" id="chat-form">
+        {% csrf_token %}
+        <a href="{% url 'upload_report' %}?child={{ chat.child.id|default:'' }}" class="icon-btn" title="Attach Report">
+            <i class="fa-solid fa-circle-plus"></i>
+        </a>
+        <input type="text" name="text" class="input-box" placeholder="Type your message to the clinical team..." id="chatInput" autocomplete="off" required>
+        <button type="submit" class="icon-btn send-circle">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const chatId = {{ chat.id }};
+    const chatBox = document.getElementById("chat-box");
+    let lastMessageCount = 0;
+
+    function loadMessages() {
+        fetch(`/chat/${chatId}/messages/`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.messages) return;
+                
+                // ONLY update if new messages arrived to prevent flicker
+                if (data.messages.length === lastMessageCount) return;
+                lastMessageCount = data.messages.length;
+
+                chatBox.innerHTML = "";
+                data.messages.forEach(msg => {
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "msg-wrapper animate__animated animate__fadeInUp " + (msg.is_me ? "msg-right" : "msg-left");
+
+                    if (!msg.is_me) {
+                        const tag = document.createElement("span");
+                        tag.className = "sender-tag";
+                        tag.innerText = msg.sender;
+                        wrapper.appendChild(tag);
+                    }
+
+                    const bubble = document.createElement("div");
+                    bubble.className = "chat-bubble " + (msg.is_me ? "bubble-user" : "bubble-staff");
+                    bubble.innerText = msg.text;
+
+                    wrapper.appendChild(bubble);
+                    chatBox.appendChild(wrapper);
+                });
+
+                // Scroll to bottom
+                chatBox.scrollTop = chatBox.scrollHeight;
+            });
+    }
+
+    // Initial load
+    loadMessages();
+    // Poll every 2 seconds
+    setInterval(loadMessages, 2000);
+</script>
+{% endblock %}

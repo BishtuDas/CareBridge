@@ -1,0 +1,83 @@
+{% extends "base_patient.html" %}
+
+{% block title %}Start New Chat{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm border-0 rounded-4 animate__animated animate__zoomIn">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex justify-content-center align-items-center mb-3" style="width: 70px; height: 70px; border-radius: 50%; background: #fff0f0; color: #b91c1c; font-size: 2rem;">
+                        <i class="fa-solid fa-comment-medical"></i>
+                    </div>
+                    <h2 style="font-family: Georgia, serif; font-weight: 800; font-size: 1.5rem; color: #1a1a1a;">Start New Chat</h2>
+                    <p class="text-muted">Select a clinical provider to begin your care thread.</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% if report %}
+                        <input type="hidden" name="report_id" value="{{ report.id }}">
+                        <div class="alert alert-info border-0 rounded-3 small">
+                            Starting a chat about <strong>{{ report.child.name }}</strong> —
+                            {{ report.summary|truncatechars:140 }}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Select Clinical Provider</label>
+                        {{ form.doctor }}
+                        {% if form.doctor.errors %}
+                            <div class="text-danger small mt-1">{{ form.doctor.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Who needs care?</label>
+                        {{ form.child }}
+                    </div>
+
+                    <button type="submit" class="btn btn-danger btn-lg w-100 rounded-pill shadow-sm" style="background: #b91c1c; border: none; font-weight: 700;">
+                        Start Chat
+                    </button>
+                    
+                    <div class="mt-4 text-center">
+                        <a href="{% url 'dashboard' %}" class="text-muted small text-decoration-none">
+                            <i class="fa-solid fa-arrow-left me-1"></i> Back to Hub
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center small text-muted px-4">
+            <i class="fa-solid fa-shield-halved me-1"></i> This conversation is encrypted and HIPAA-compliant.
+        </div>
+    </div>
+</div>
+
+<style>
+    select {
+        display: block;
+        width: 100%;
+        padding: 12px 18px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #f8f9fa;
+        background-clip: padding-box;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        appearance: none;
+        outline: none;
+    }
+    select:focus {
+        border-color: #b91c1c;
+        background-color: #fff;
+    }
+</style>
+{% endblock %}

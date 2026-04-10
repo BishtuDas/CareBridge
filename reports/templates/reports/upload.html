@@ -1,0 +1,116 @@
+{% extends "base_patient.html" %}
+
+{% block title %}Upload Medical Report{% endblock %}
+
+{% block content %}
+<div class="row g-4 mt-4">
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0 rounded-4 animate__animated animate__fadeIn">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex justify-content-center align-items-center mb-3" style="width: 70px; height: 70px; border-radius: 50%; background: #fff0f0; color: #b91c1c; font-size: 2rem;">
+                        <i class="fa-solid fa-file-pdf"></i>
+                    </div>
+                    <h2 style="font-family: Georgia, serif; font-weight: 800; font-size: 1.5rem; color: #1a1a1a;">Upload Medical Report</h2>
+                    <p class="text-muted">Upload a medical report or lab result for AI-powered assessment.</p>
+                </div>
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Patient Profile</label>
+                        {{ form.child }}
+                        <div class="small text-muted mt-1">Select the child this report belongs to.</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-muted small text-uppercase">Report File (PDF/Image)</label>
+                        <div class="upload-zone">
+                            {{ form.file }}
+                            <div class="text-center mt-2 text-muted small">
+                                <i class="fa-solid fa-cloud-arrow-up me-1"></i> Max size 10MB
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger btn-lg w-100 rounded-pill shadow-sm" style="background: #b91c1c; border: none; font-weight: 700;">
+                        Upload & Analyze
+                    </button>
+                    
+                    <div class="mt-4 text-center">
+                        <a href="{% url 'dashboard' %}" class="text-muted small text-decoration-none">
+                            <i class="fa-solid fa-chevron-left me-1"></i> Return to Hub
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4 card bg-light border-0 rounded-3 p-3">
+            <div class="d-flex gap-3 align-items-center">
+                <i class="fa-solid fa-robot fa-2x text-danger opacity-50"></i>
+                <div class="small text-muted">
+                    Our AI models will extract clinical data and provide a plain-language summary for your care team.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="card border-0 rounded-4 shadow-sm p-4">
+            <h4 class="fw-bold mb-3">Your Reports</h4>
+            {% if reports %}
+                <div class="list-group">
+                    {% for report in reports %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <div class="fw-bold">{{ report.child.name }}</div>
+                                    <div class="text-muted small">{{ report.file.name|slice:"7:" }}</div>
+                                </div>
+                                <a href="/chat/start/?child={{ report.child.id }}&report={{ report.id }}" class="btn btn-sm btn-outline-danger">Start Chat</a>
+                            </div>
+                            <div class="mt-2 small text-muted">
+                                {{ report.summary|truncatechars:160 }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted mb-0">No reports uploaded yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    select, input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 12px 18px;
+        font-size: 0.95rem;
+        color: #212529;
+        background-color: #f8f9fa;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        outline: none;
+        transition: 0.2s;
+    }
+    select:focus, input[type="file"]:focus {
+        border-color: #b91c1c;
+        background-color: #fff;
+    }
+    .upload-zone {
+        background: #fcfcfd;
+        border: 2px dashed #eee;
+        border-radius: 16px;
+        padding: 20px;
+        transition: 0.2s;
+    }
+    .upload-zone:hover {
+        border-color: #b91c1c;
+        background: #fff0f0;
+    }
+</style>
+{% endblock %}

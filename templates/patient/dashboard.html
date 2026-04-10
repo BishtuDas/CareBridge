@@ -1,0 +1,132 @@
+{% extends "base_patient.html" %}
+
+{% block title %}Care Hub{% endblock %}
+{% block header_title %}Hub overview{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Section headers */
+    .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+    .section-title { font-size: 1.1rem; font-weight: 800; color: #1a1a1a; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; }
+
+    /* Interactive Cards */
+    .child-card-link { text-decoration: none; color: inherit; display: block; border-radius: 24px; transition: 0.2s; }
+    .child-card-link:hover .child-card { border-color: #b91c1c; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(185, 28, 28, 0.1); }
+
+    .child-card {
+        background: white; border-radius: 24px; padding: 24px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; gap: 12px;
+        border: 2px solid transparent; height: 100%; text-align: center;
+    }
+    
+    .child-avatar { 
+        width: 70px; height: 70px; border-radius: 50%; 
+        background: #fdf2f2; color: #b91c1c; 
+        display: flex; justify-content: center; align-items: center; font-size: 1.8rem; 
+    }
+    .child-name { font-weight: 800; font-size: 1rem; margin: 0; color: #1a1a1a; }
+    .child-role { font-size: 0.8rem; color: #666; margin: 0; }
+
+    .thread-card {
+        background: white; border-radius: 20px; padding: 24px; margin-bottom: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03); display: flex; gap: 20px; align-items: flex-start;
+        text-decoration: none; color: inherit; transition: 0.2s; border: 1px solid #f0f0f0;
+    }
+    .thread-card:hover { transform: translateY(-3px); border-color: #b91c1c; box-shadow: 0 8px 25px rgba(0,0,0,0.05); }
+    .thread-icon { 
+        width: 55px; height: 55px; border-radius: 16px; 
+        background: #fff0f0; color: #b91c1c; 
+        display: flex; justify-content: center; align-items: center; font-size: 1.4rem; flex-shrink: 0; 
+    }
+    .thread-title { font-weight: 800; font-size: 1.1rem; margin: 0; color: #1a1a1a; }
+    .thread-meta { font-size: 0.8rem; font-weight: 700; color: #b91c1c; text-transform: uppercase; margin-bottom: 4px; }
+</style>
+{% endblock %}
+
+{% block content %}
+    <!-- Hero Banner -->
+    <div class="row align-items-center mb-5 animate__animated animate__fadeIn">
+        <div class="col-md-8">
+            <h1 style="font-family: Georgia, serif; font-weight: 800; font-size: 2.2rem; color: #1a1a1a;">Welcome home, {{ request.user.username }}</h1>
+            <p class="text-muted" style="font-size: 1.1rem;">Clinical care for your family, delivered at home.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'chat_start' %}" class="btn btn-danger btn-lg rounded-pill px-4 fw-bold shadow-sm" style="background: #b91c1c; border: none;">
+                <i class="fa-solid fa-plus me-2"></i> GET CARE NOW
+            </a>
+        </div>
+    </div>
+
+    <!-- Family Grid -->
+    <div class="section-header">
+        <h2 class="section-title">Who needs care?</h2>
+    </div>
+
+    <div class="row g-4 mb-5">
+        {% for child in children %}
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <a href="{% url 'edit_child' child.id %}" class="child-card-link animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                <div class="child-card">
+                    <div class="child-avatar">
+                        {% if child.gender == 'female' %}<i class="fa-solid fa-child-dress"></i>{% else %}<i class="fa-solid fa-child"></i>{% endif %}
+                    </div>
+                    <p class="child-name">{{ child.name }}</p>
+                    <p class="child-role">Dependent Profile</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <a href="{% url 'add_child' %}" class="child-card-link">
+                <div class="child-card" style="border: 2px dashed #ddd; background: transparent; box-shadow: none;">
+                    <div class="child-avatar" style="background: #f4f5f7; color: #aaa;"><i class="fa-solid fa-plus"></i></div>
+                    <p class="child-name" style="color: #aaa;">Add Child</p>
+                    <p class="child-role">Family Member</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Active Threads -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="section-header">
+                <h2 class="section-title">Active Care Threads</h2>
+                <a href="{% url 'chat_list' %}" class="text-danger fw-bold text-decoration-none small">VIEW ALL</a>
+            </div>
+
+            {% for chat in chats %}
+            <a href="{% url 'chat_detail' chat.id %}" class="thread-card animate__animated animate__fadeInUp">
+                <div class="thread-icon"><i class="fa-solid fa-comment-medical"></i></div>
+                <div class="thread-content flex-grow-1">
+                    <div class="thread-meta">Clinic Conversation</div>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h3 class="thread-title"> {{ chat.doctor.username }}</h3>
+                        <span class="small text-muted fw-bold">{{ chat.message_set.last.created_at|timesince }} ago</span>
+                    </div>
+                    <p class="text-muted small m-0">{{ chat.message_set.last.text|truncatechars:100 }}</p>
+                </div>
+            </a>
+            {% empty %}
+                <div class="p-5 text-center bg-white rounded-5 border border-dashed my-3">
+                    <p class="text-muted">You have no clinical care threads open.</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Sidebar Cards -->
+        <div class="col-lg-4">
+            <div class="section-header">
+                <h2 class="section-title">Your Clinical Archive</h2>
+            </div>
+            <div class="card border-0 rounded-4 shadow-sm p-4 mb-4 bg-white">
+                <h4 class="fw-bold mb-3" style="font-size: 1rem;">Clinical Tools</h4>
+                <div class="nav flex-column gap-3">
+                    <a href="{% url 'upload_report' %}" class="nav-link p-0 text-dark fw-bold small"><i class="fa-solid fa-file-upload me-2 text-danger"></i> Upload Medical Result</a>
+                    <a href="#" class="nav-link p-0 text-muted small"><i class="fa-solid fa-book-medical me-2 text-danger"></i> Pediatric Care Guidelines</a>
+                    <a href="#" class="nav-link p-0 text-muted small"><i class="fa-solid fa-vial-circle-check me-2 text-danger"></i> Lab Result Interpreter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

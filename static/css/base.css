@@ -1,0 +1,136 @@
+/* Luv Health Base Design System - SaaS Dashboard Foundation */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background-color: #f8f9fa; 
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* Main scroll happens in .main-content-scroll */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+}
+
+/* --- LAYOUT STRUCTURE --- */
+.wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #fff;
+    border-right: 1px solid #eee;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.topbar {
+    padding: 15px 25px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    min-height: 65px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+
+.main-content-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    background: #f8f9fa;
+}
+
+/* --- NAVIGATION --- */
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 0 0;
+    flex-grow: 1;
+    overflow-y: auto; /* Internal scroll for long navs */
+}
+
+.nav-link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #666;
+    padding: 12px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 6px;
+    transition: 0.2s;
+}
+
+.nav-link-item:hover { background: #fdf2f2; color: #b91c1c; }
+.nav-link-item.active { background: #b91c1c; color: white !important; }
+
+/* Sticky bottom nav in sidebar */
+.sidebar-footer {
+    border-top: 1px solid #f8f9fa;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+/* --- COMPONENTS --- */
+.card {
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: 0.2s;
+}
+
+.btn-primary-luv {
+    background-color: #b91c1c;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+/* --- CHAT UI POLISH --- */
+.chat-window {
+    height: calc(100vh - 180px); /* Adjust for topbar and input */
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.chat-bubble {
+    max-width: 600px;
+    padding: 14px 20px; 
+    border-radius: 20px;
+    font-size: 0.95rem; 
+    line-height: 1.5; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* --- MOBILE SPECIFIC --- */
+@media (max-width: 768px) {
+    body { overflow: auto; } /* Allow body scroll on mobile for simpler UX */
+    .wrapper { height: auto; }
+    .sidebar { display: none !important; }
+    .main-content { height: auto; }
+    .main-content-scroll { padding: 20px; overflow-y: visible; }
+    
+    /* Ensure offcanvas links are centered and large */
+    .offcanvas .nav-link-item {
+        padding: 16px 20px;
+        font-size: 1.1rem;
+    }
+}

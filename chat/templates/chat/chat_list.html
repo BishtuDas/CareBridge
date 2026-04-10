@@ -1,0 +1,26 @@
+{% extends request.user.role == 'doctor' and 'base_doctor.html' or 'base_patient.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">Chats</h1>
+        {% if request.user.role == "parent" %}
+            <a href="/chat/start/" class="btn btn-primary">Start Chat</a>
+        {% endif %}
+    </div>
+
+    {% if chats %}
+        <div class="list-group">
+            {% for chat in chats %}
+                <a href="/chat/{{ chat.id }}/" class="list-group-item list-group-item-action">
+                    {% if request.user.role == "parent" %}
+                        Doctor: {{ chat.doctor.username }} — Child: {{ chat.child.name|default:"Unknown" }}
+                    {% else %}
+                        Parent: {{ chat.parent.username }} — Child: {{ chat.child.name|default:"Unknown" }}
+                    {% endif %}
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No chats yet.</p>
+    {% endif %}
+{% endblock %}

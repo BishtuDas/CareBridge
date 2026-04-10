@@ -1,0 +1,96 @@
+{% extends "base_doctor.html" %}
+
+{% block title %}Care Hub{% endblock %}
+{% block header_title %}Care Hub{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-card {
+        background: white;
+        border-radius: 20px;
+        padding: 22px;
+        border: 1px solid #eee;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+    .stat-value { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; margin-bottom: 2px; }
+    .stat-label { font-size: 0.75rem; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-meta { font-size: 0.8rem; color: #666; }
+
+    .queue-card {
+        background: white;
+        border-radius: 20px;
+        padding: 18px 20px;
+        border: 1px solid #eee;
+        text-decoration: none;
+        color: inherit;
+        transition: 0.2s;
+        display: block;
+    }
+    .queue-card:hover { border-color: #b91c1c; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.05); }
+    .queue-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .queue-title { font-weight: 800; font-size: 1rem; margin: 0; }
+    .queue-sub { font-size: 0.85rem; color: #666; }
+    .queue-chip { background: #fff0f0; color: #b91c1c; font-weight: 700; border-radius: 999px; padding: 4px 10px; font-size: 0.7rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="row align-items-center mb-4 animate__animated animate__fadeIn">
+        <div class="col-md-8">
+            <h1 style="font-family: Georgia, serif; font-weight: 800; font-size: 2.2rem; color: #1a1a1a;">Care Hub</h1>
+            <p class="text-muted" style="font-size: 1.05rem;">Dr. {{ request.user.username|title }} • Luv Health Staff</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <div class="badge bg-success p-2 px-3 rounded-pill fw-bold"><i class="fa-solid fa-circle-check me-1"></i> SYSTEM HEALTHY</div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value text-danger">{{ chats.count }}</div>
+                <div class="stat-label">Pending Triages</div>
+                <div class="stat-meta">Open care threads</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">14</div>
+                <div class="stat-label">Completed Today</div>
+                <div class="stat-meta">Resolved cases</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-value">4.2m</div>
+                <div class="stat-label">Avg. Response</div>
+                <div class="stat-meta">Last 24 hours</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <h2 style="font-size: 1.05rem; font-weight: 800; text-transform: uppercase; color: #888;">Priority Care Queue</h2>
+        <a href="{% url 'chat_list' %}" class="small fw-bold text-danger text-decoration-none">View all</a>
+    </div>
+
+    <div class="row g-3">
+        {% for chat in chats %}
+        <div class="col-lg-6">
+            <a href="{% url 'chat_detail' chat.id %}" class="queue-card animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
+                <div class="queue-head">
+                    <div class="queue-title">{{ chat.child.name|default:"General Triage" }}</div>
+                    <span class="queue-chip">Active</span>
+                </div>
+                <div class="queue-sub">Guardian: {{ chat.parent.username }}</div>
+                <div class="text-muted small mt-2">{{ chat.message_set.last.text|truncatechars:100 }}</div>
+                <div class="text-muted small mt-2"><i class="fa-solid fa-clock me-1"></i> {{ chat.message_set.last.created_at|timesince }} ago</div>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="p-5 text-center bg-white rounded-5 border border-dashed text-muted">No active triages found.</div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,76 @@
+.env
+agent_executor_prompt.md
+agent_plan.md
+tasks.md
+
+
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDEs / Editors
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite database (common in dev)
+
+
+# mypy / type checking
+.mypy_cache/
+
+# pyright
+.pyright/
+
+# Ruff / linters
+.ruff_cache/
+
+# macOS
+*.DS_Store
+
+# Temporary files
+*.swp
+*.swo

@@ -1,0 +1,43 @@
+{% extends "base_doctor.html" %}
+
+{% block title %}Clinical Queue{% endblock %}
+{% block header_title %}Care queue{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4 animate__animated animate__fadeIn">
+    <div class="col-md-8">
+        <h1 style="font-family: Georgia, serif; font-weight: 800; font-size: 2rem; color: #1a1a1a;">Care Queue</h1>
+        <p class="text-muted mb-0">Focused list of open patient threads.</p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <div class="badge bg-danger-subtle text-danger rounded-pill px-4 py-2 fw-bold">
+            <i class="fa-solid fa-bell me-2"></i> {{ chats.count }} OPEN
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for chat in chats %}
+    <div class="col-xl-6">
+        <a href="{% url 'chat_detail' chat.id %}" class="card border-0 rounded-4 shadow-sm p-4 text-decoration-none text-dark animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                    <div class="fw-bold" style="font-size: 1rem;">{{ chat.child.name|default:"General Consultation" }}</div>
+                    <div class="small text-muted">Guardian: {{ chat.parent.username }}</div>
+                </div>
+                <span class="badge bg-light text-dark fw-bold">Active</span>
+            </div>
+            <div class="small text-muted">{{ chat.message_set.last.text|truncatechars:90 }}</div>
+            <div class="small text-muted mt-2"><i class="fa-regular fa-clock me-1"></i> {{ chat.message_set.last.created_at|timesince }} ago</div>
+        </a>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="p-5 text-center bg-white rounded-5 shadow-sm border border-dashed">
+            <h3 class="fw-bold text-muted">Queue Empty</h3>
+            <p class="text-muted">No active patient threads assigned to you.</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends base_template %}
+
+{% block title %}Account Settings - {{ request.user.username }}{% endblock %}
+{% block header_title %}Account settings{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-9 col-lg-7">
+        
+        <!-- Profile View Mode -->
+        {% if request.GET.edit != "true" %}
+        <div class="card shadow-sm border-0 rounded-4 animate__animated animate__fadeIn">
+            <div class="card-body p-0">
+                <div class="p-5 text-center border-bottom bg-light rounded-top-4">
+                    <div class="position-relative d-inline-block">
+                        <div style="width: 120px; height: 120px; border-radius: 50%; background: #b91c1c; color: white; display: flex; justify-content: center; align-items: center; font-size: 3rem; font-weight: 800; border: 4px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                            {{ request.user.username|slice:":1"|upper }}
+                        </div>
+                    </div>
+                    <h2 class="mt-3 fs-3 fw-bold mb-1">{{ request.user.full_name|default:request.user.username }}</h2>
+                    <p class="text-muted small text-uppercase fw-bold"><i class="fa-solid fa-shield-halved me-1"></i> {{ request.user.role|title }} Account</p>
+                </div>
+                
+                <div class="p-5">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Username</label>
+                            <p class="fw-bold">{{ request.user.username }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Email Address</label>
+                            <p class="fw-bold text-truncate">{{ request.user.email|default:"Not provided" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Phone Number</label>
+                            <p class="fw-bold">{{ request.user.phone|default:"—" }}</p>
+                        </div>
+                        {% if request.user.role == "doctor" %}
+                        <div class="col-md-6">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Clinical Specialization</label>
+                            <p class="fw-bold text-danger">{{ request.user.specialization|default:"General Medicine" }}</p>
+                        </div>
+                        {% endif %}
+                        <div class="col-12">
+                            <label class="text-muted small fw-bold text-uppercase d-block mb-1">Professional Bio / Notes</label>
+                            <p class="text-muted mb-0">{{ request.user.bio|default:"No description provided." }}</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-top">
+                        <a href="?edit=true" class="btn btn-primary-luv px-4 py-2 rounded-pill">
+                            <i class="fa-solid fa-pen-to-square me-2"></i> Edit My Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if request.user.role == "parent" %}
+        <div class="mt-4 card border-0 rounded-4 shadow-sm p-4">
+            <h5 class="fw-bold mb-3">Care Flow</h5>
+            <ol class="mb-3">
+                <li class="mb-1">Add your child profile</li>
+                <li class="mb-1">Start a consultation</li>
+                <li class="mb-1">Upload reports for that child</li>
+            </ol>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/children/add/" class="btn btn-outline-danger rounded-pill px-4">Add Child</a>
+                <a href="/chat/start/" class="btn btn-danger rounded-pill px-4">Start Consultation</a>
+                <a href="/report/upload/" class="btn btn-outline-secondary rounded-pill px-4">Upload Report</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Password Change / Other Sections -->
+        <div class="mt-4 card border-0 rounded-4 shadow-sm p-4 text-center">
+            <p class="mb-0 text-muted small">Need to change your password? <a href="#" class="text-danger fw-bold text-decoration-none">Update Security Credentials</a></p>
+        </div>
+
+        <!-- Profile Edit Mode -->
+        {% else %}
+        <div class="card shadow-sm border-0 rounded-4 animate__animated animate__fadeInUp">
+            <div class="card-header bg-white p-4 border-0">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="m-0 fw-bold fs-5">Edit Clinical Profile</h3>
+                    <a href="?" class="btn-close"></a>
+                </div>
+            </div>
+            <div class="card-body p-5 pt-0">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Full Name</label>
+                            {{ form.full_name }}
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Phone</label>
+                            {{ form.phone }}
+                        </div>
+                        {% if request.user.role == "doctor" %}
+                        <div class="col-12 mb-4">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Specialization</label>
+                            {{ form.specialization }}
+                        </div>
+                        {% endif %}
+                        <div class="col-12 mb-4">
+                            <label class="form-label fw-bold small text-muted text-uppercase">Bio / Description</label>
+                            {{ form.bio }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 py-2 fw-bold border-0" style="background: #b91c1c;">
+                            Save Changes
+                        </button>
+                        <a href="?" class="btn btn-outline-secondary btn-lg rounded-pill px-5 py-2 fw-bold">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<style>
+    input, select, textarea {
+        display: block; width: 100%; padding: 12px 18px;
+        font-size: 0.95rem; background-color: #f8f9fa;
+        border: 1px solid #eee; border-radius: 12px;
+        outline: none; transition: 0.2s;
+    }
+    textarea { min-height: 120px; }
+    input:focus, select:focus, textarea:focus { border-color: #b91c1c; background-color: #fff; }
+</style>
+{% endblock %}

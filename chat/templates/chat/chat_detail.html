@@ -1,0 +1,77 @@
+{% extends request.user.role == 'doctor' and 'base_doctor.html' or 'base_patient.html' %}
+
+{% block content %}
+    <h1 class="mb-3">Chat</h1>
+
+    <div class="card p-3 mb-3">
+        {% if request.user.role == "parent" %}
+            <strong>Doctor:</strong> {{ chat.doctor.username }}
+        {% else %}
+            <strong>Parent:</strong> {{ chat.parent.username }}
+        {% endif %}
+    </div>
+
+    <div class="card p-3 mb-3">
+        <h5>Patient Reports{% if chat.child %} ({{ chat.child.name }}){% endif %}</h5>
+
+        <ul>
+            {% for report in reports %}
+                <li>
+                    {{ report.summary|truncatechars:100 }}
+                </li>
+            {% empty %}
+                <li>No reports</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="chat-box" class="card p-3 mb-3" style="max-height: 400px; overflow-y: auto;"></div>
+
+    <form method="post" class="card p-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+
+    {% if request.user.role == "doctor" and suggestion %}
+        <div class="card p-3 mt-3">
+            <h5>Suggested Reply</h5>
+            <p class="mb-0">{{ suggestion }}</p>
+        </div>
+    {% endif %}
+
+    <script>
+        const chatId = {{ chat.id }};
+
+        function loadMessages() {
+            fetch(`/chat/${chatId}/messages/`)
+                .then(res => res.json())
+                .then(data => {
+                    const box = document.getElementById("chat-box");
+                    box.innerHTML = "";
+
+                    if (!data.messages || data.messages.length === 0) {
+                        box.innerHTML = "<p class=\"mb-0\">No messages yet.</p>";
+                        return;
+                    }
+
+                    data.messages.forEach(msg => {
+                        const wrapper = document.createElement("div");
+                        wrapper.className = "mb-3 " + (msg.is_me ? "text-end" : "");
+
+                        const bubble = document.createElement("div");
+                        bubble.className = "p-2 rounded " + (msg.is_me ? "bg-primary text-white" : "bg-light");
+                        bubble.textContent = msg.text;
+
+                        wrapper.appendChild(bubble);
+                        box.appendChild(wrapper);
+                    });
+
+                    box.scrollTop = box.scrollHeight;
+                });
+        }
+
+        loadMessages();
+        setInterval(loadMessages, 2000);
+    </script>
+{% endblock %}
