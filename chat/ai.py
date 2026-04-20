@@ -3,6 +3,8 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
+from users.models import OpenAISettings
+
 
 load_dotenv()
 
@@ -12,6 +14,9 @@ def suggest_reply(report_summaries, last_message):
         return ""
 
     api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        settings_row = OpenAISettings.objects.first()
+        api_key = settings_row.api_key if settings_row else ""
     if not api_key:
         return ""
 
@@ -45,6 +50,9 @@ def answer_from_reports(report_summaries, report_texts, question):
         return ""
 
     api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        settings_row = OpenAISettings.objects.first()
+        api_key = settings_row.api_key if settings_row else ""
     if not api_key:
         return ""
 

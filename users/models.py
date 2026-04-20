@@ -14,3 +14,11 @@ class User(AbstractUser):
     bio = models.TextField(blank=True)
     specialization = models.CharField(max_length=100, blank=True)
     current_session_key = models.CharField(max_length=40, blank=True)
+
+
+class OpenAISettings(models.Model):
+    api_key = models.CharField(max_length=200, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "OpenAI Settings"

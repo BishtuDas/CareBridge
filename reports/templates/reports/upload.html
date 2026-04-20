@@ -72,7 +72,7 @@
                                 <a href="/chat/start/?child={{ report.child.id }}&report={{ report.id }}" class="btn btn-sm btn-outline-danger">Start Chat</a>
                             </div>
                             <div class="mt-2 small text-muted">
-                                {{ report.summary|truncatechars:160 }}
+                                {{ report.summary|cut:"**"|cut:"*"|truncatechars:160 }}
                             </div>
                         </div>
                     {% endfor %}
