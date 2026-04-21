@@ -18,4 +18,4 @@ class ChatStartForm(forms.Form):
 
 
 class MessageForm(forms.Form):
-    text = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}), min_length=1)
+    text = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}), required=False)

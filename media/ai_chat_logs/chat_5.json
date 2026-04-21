@@ -1,0 +1,251 @@
+[
+  {
+    "source_message_id": 13,
+    "patient_message": "so what can i do now ?",
+    "analysis": {
+      "concern_summary": "so what can i do now ?",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: Follow-Up on Patient Care\n\nDear Dr. Sharma,\n\nFor Mr. Tan Ah Kow, it\u2019s crucial to ensure ongoing support from Ah Beng and consider regular follow-ups to monitor his dementia symptoms closely. \n\nFor Souvik Chatterjee, advise him to follow the treatment plan and to reach out if symptoms worsen. A follow-up in 5 days should be scheduled to assess his recovery.\n\nPlease let me know if you require further assistance.\n\nBest regards,  \n[Your Name]  \n[Your Position]",
+    "status": "pending",
+    "created_at": "2026-04-21T18:06:44.502765+00:00"
+  },
+  {
+    "source_message_id": 13,
+    "action": "send",
+    "used_reply": "Subject: Follow-Up on Patient Care\n\nDear Dr. Sharma,\n\nFor Mr. Tan Ah Kow, it\u2019s crucial to ensure ongoing support from Ah Beng and consider regular follow-ups to monitor his dementia symptoms closely. \n\nFor Souvik Chatterjee, advise him to follow the treatment plan and to reach out if symptoms worsen. A follow-up in 5 days should be scheduled to assess his recovery.\n\nPlease let me know if you require further assistance.\n\nBest regards,  \n[Your Name]  \n[Your Position]",
+    "status": "sent"
+  },
+  {
+    "source_message_id": 20,
+    "patient_message": "hello doctor",
+    "analysis": {
+      "concern_summary": "hello doctor",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: RE: Hello Doctor\n\nDear [Doctor's Name],\n\nThank you for your message. Please let me know if there's anything specific you would like to discuss or any reports you need assistance with.\n\nBest regards,  \n[Your Name]  \n[Your Position]",
+    "status": "pending",
+    "created_at": "2026-04-21T18:35:02.200244+00:00"
+  },
+  {
+    "source_message_id": 20,
+    "action": "send",
+    "used_reply": "Hi Anisha Dutta, thanks for reaching out. Please share the main symptoms and since when they started.",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 22,
+    "patient_message": "you see my reports?",
+    "analysis": {
+      "concern_summary": "you see my reports?",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: Re: Reports\n\nDear Dr. [Last Name],\n\nYes, I've reviewed your reports. Please let me know if you need any further assistance or if you'd like to discuss the findings.\n\nBest regards,  \n[Your Name]  \n[Your Position]",
+    "status": "pending",
+    "created_at": "2026-04-21T18:36:01.109253+00:00"
+  },
+  {
+    "source_message_id": 22,
+    "action": "remove",
+    "removal_reason": "pasent said you see my reprt so ai need to give me diffrent sms or suggestions",
+    "status": "removed"
+  },
+  {
+    "source_message_id": 23,
+    "patient_message": "can you see my report ?",
+    "analysis": {
+      "concern_summary": "can you see my report ?",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: Report Confirmation\n\nDear [Doctor's Name],\n\nYes, I have reviewed your report. Please let me know if you need any further assistance or details.\n\nBest regards,  \n[Your Name]  \n[Your Position]",
+    "status": "pending",
+    "created_at": "2026-04-21T18:37:18.215376+00:00"
+  },
+  {
+    "source_message_id": 23,
+    "action": "send",
+    "used_reply": "Hello Anisha Dutta, how can I help you today?",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 25,
+    "patient_message": "i have a headached can you help me to slove this ?",
+    "analysis": {
+      "concern_summary": "i have a headached can you help me to slove this ?",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: Re: Headache Relief\n\nDear [Doctor\u2019s Name],\n\nThe patient reports experiencing a headache. I recommend assessing any potential triggers or underlying conditions during their next visit. In the meantime, you might suggest over-the-counter pain relief and hydration to help alleviate their discomfort.\n\nBest regards,  \n[Your Name]  \nMedical Assistant",
+    "status": "pending",
+    "created_at": "2026-04-21T18:40:40.869205+00:00"
+  },
+  {
+    "source_message_id": 25,
+    "action": "send",
+    "used_reply": "Hi Anisha Dutta, thanks for reaching out. Please share the main symptoms and since when they started.",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 27,
+    "patient_message": "heart problem",
+    "analysis": {
+      "concern_summary": "heart problem",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "I'm here to help! Can you share a bit more about the heart problem? What symptoms has your child been experiencing?",
+    "status": "pending",
+    "created_at": "2026-04-21T18:41:26.777431+00:00"
+  },
+  {
+    "source_message_id": 27,
+    "action": "send",
+    "used_reply": "I'm here to help! Can you share a bit more about the heart problem? What symptoms has your child been experiencing?",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 29,
+    "patient_message": "heart problem",
+    "analysis": {
+      "concern_summary": "heart problem",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "I\u2019m sorry to hear that. Can you share a bit more about the heart problem? Are there specific symptoms or concerns you have?",
+    "status": "pending",
+    "created_at": "2026-04-21T18:46:00.961048+00:00"
+  },
+  {
+    "source_message_id": 29,
+    "action": "send",
+    "used_reply": "I\u2019m sorry to hear that. Can you share a bit more about the heart problem? Are there specific symptoms or concerns you have?",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 31,
+    "patient_message": "filling pain in my heart",
+    "analysis": {
+      "concern_summary": "Pain in the heart area",
+      "urgency": "high",
+      "symptoms": [
+        "filling pain in heart"
+      ],
+      "recommended_next_step": "Seek immediate medical evaluation"
+    },
+    "generated_reply": "Anisha, I'm concerned to hear about your heart pain. It's important to get this evaluated right away. Please seek medical attention promptly.",
+    "status": "pending",
+    "created_at": "2026-04-21T18:47:34.985510+00:00"
+  },
+  {
+    "source_message_id": 31,
+    "action": "send",
+    "used_reply": "Anisha, I'm concerned to hear about your heart pain. It's important to get this evaluated right away. Please seek medical attention promptly.",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 33,
+    "patient_message": "can i share my report ?",
+    "analysis": {
+      "concern_summary": "Request to share report",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Please share the report for review."
+    },
+    "generated_reply": "Hi Anisha! Yes, you can share your report here for review.",
+    "status": "pending",
+    "created_at": "2026-04-21T18:48:06.626918+00:00"
+  },
+  {
+    "source_message_id": 33,
+    "action": "send",
+    "used_reply": "Hi Anisha! Yes, you can share your report here for review.",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 35,
+    "patient_message": "Shared a file: Sample-filled-in-MR.pdf",
+    "analysis": {
+      "concern_summary": "Shared a file: Sample-filled-in-MR.pdf",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "It sounds like Mr. Tan is facing some significant challenges right now. How is Ah Beng coping with everything? If you have any specific questions or need advice on how to support Mr. Tan, feel free to ask!",
+    "status": "pending",
+    "created_at": "2026-04-21T18:58:05.552029+00:00"
+  },
+  {
+    "source_message_id": 35,
+    "action": "send",
+    "used_reply": "It sounds like Mr. Tan is facing some significant challenges right now. How is Ah Beng coping with everything? If you have any specific questions or need advice on how to support Mr. Tan, feel free to ask!",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 37,
+    "patient_message": "ear infections",
+    "analysis": {
+      "concern_summary": "ear infections",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "It sounds like you\u2019re mentioning ear infections. Is Mr. Tan currently experiencing any ear pain or signs of infection? Let\u2019s see how we can help.",
+    "status": "pending",
+    "created_at": "2026-04-21T20:13:14.040187+00:00"
+  },
+  {
+    "source_message_id": 37,
+    "action": "send",
+    "used_reply": "It sounds like you\u2019re mentioning ear infections. Is Mr. Tan currently experiencing any ear pain or signs of infection? Let\u2019s see how we can help.",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 40,
+    "patient_message": "hi",
+    "analysis": {
+      "concern_summary": "hi",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Hi there! How can I assist you today?",
+    "status": "pending",
+    "created_at": "2026-04-21T21:08:07.470061+00:00"
+  },
+  {
+    "source_message_id": 40,
+    "action": "send",
+    "used_reply": "Hi there! How can I assist you today?",
+    "status": "edited_sent"
+  },
+  {
+    "source_message_id": 42,
+    "patient_message": "Shared a file: Sample-filled-in-MR.pdf",
+    "analysis": {
+      "concern_summary": "Shared a file: Sample-filled-in-MR.pdf",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Thanks for sharing the report. It sounds like Mr. Tan is facing some real challenges. How are you and Ah Beng coping with his needs? If you have any questions about his care or support options, I\u2019m here to help!",
+    "status": "pending",
+    "created_at": "2026-04-21T21:08:40.758894+00:00"
+  },
+  {
+    "source_message_id": 42,
+    "action": "send",
+    "used_reply": "Thanks for sharing the report. It sounds like Mr. Tan is facing some real challenges. How are you and Ah Beng coping with his needs? If you have any questions about his care or support options, I\u2019m here to help!",
+    "status": "edited_sent"
+  }
+]

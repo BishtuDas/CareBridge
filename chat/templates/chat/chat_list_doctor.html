@@ -4,40 +4,274 @@
 {% block header_title %}Care queue{% endblock %}
 
 {% block content %}
-<div class="row align-items-center mb-4 animate__animated animate__fadeIn">
-    <div class="col-md-8">
-        <h1 style="font-family: Georgia, serif; font-weight: 800; font-size: 2rem; color: #1a1a1a;">Care Queue</h1>
-        <p class="text-muted mb-0">Focused list of open patient threads.</p>
-    </div>
-    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <div class="badge bg-danger-subtle text-danger rounded-pill px-4 py-2 fw-bold">
-            <i class="fa-solid fa-bell me-2"></i> {{ chats.count }} OPEN
+<section class="queue-shell animate__animated animate__fadeIn">
+    <header class="queue-head">
+        <div>
+            <p class="eyebrow">Doctor Console</p>
+            <h1>Care Queue</h1>
+            <p class="sub">Monitor active parent consultations and respond quickly with safe, contextual guidance.</p>
         </div>
-    </div>
-</div>
-
-<div class="row g-3">
-    {% for chat in chats %}
-    <div class="col-xl-6">
-        <a href="{% url 'chat_detail' chat.id %}" class="card border-0 rounded-4 shadow-sm p-4 text-decoration-none text-dark animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-                <div>
-                    <div class="fw-bold" style="font-size: 1rem;">{{ chat.child.name|default:"General Consultation" }}</div>
-                    <div class="small text-muted">Guardian: {{ chat.parent.username }}</div>
-                </div>
-                <span class="badge bg-light text-dark fw-bold">Active</span>
+        <div class="queue-metrics">
+            <div class="metric-card">
+                <span>Open Threads</span>
+                <strong>{{ chats.count }}</strong>
             </div>
-            <div class="small text-muted">{{ chat.message_set.last.text|truncatechars:90 }}</div>
-            <div class="small text-muted mt-2"><i class="fa-regular fa-clock me-1"></i> {{ chat.message_set.last.created_at|timesince }} ago</div>
-        </a>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="p-5 text-center bg-white rounded-5 shadow-sm border border-dashed">
-            <h3 class="fw-bold text-muted">Queue Empty</h3>
-            <p class="text-muted">No active patient threads assigned to you.</p>
+            <div class="metric-card">
+                <span>Response Priority</span>
+                <strong>Live</strong>
+            </div>
         </div>
+    </header>
+
+    {% if chats %}
+    <div class="queue-grid">
+        {% for chat in chats %}
+        {% with last_msg=chat.message_set.last %}
+        <a href="{% url 'chat_detail' chat.id %}" class="queue-card animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
+            <div class="queue-top">
+                <div class="patient-avatar">
+                    {% if chat.child %}
+                        {{ chat.child.name|slice:":2"|upper }}
+                    {% else %}
+                        PT
+                    {% endif %}
+                </div>
+                <div class="queue-title">
+                    <h3>{{ chat.child.name|default:"General Consultation" }}</h3>
+                    <p>Guardian: {{ chat.parent.username }}</p>
+                </div>
+                <span class="state-pill">Active</span>
+            </div>
+
+            <div class="queue-preview">
+                {% if last_msg %}
+                    {{ last_msg.text|truncatechars:130 }}
+                {% else %}
+                    No messages yet. Open thread to begin care communication.
+                {% endif %}
+            </div>
+
+            <div class="queue-foot">
+                <span>
+                    <i class="fa-regular fa-clock"></i>
+                    {% if last_msg %}{{ last_msg.created_at|timesince }} ago{% else %}Just created{% endif %}
+                </span>
+                <span class="open-link">Review Case <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </a>
+        {% endwith %}
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon"><i class="fa-solid fa-stethoscope"></i></div>
+        <h3>Queue is clear</h3>
+        <p>No active patient threads are currently assigned. New consultations will appear here automatically.</p>
+    </div>
+    {% endif %}
+</section>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
+
+:root {
+    --dq-bg: #f3f6fb;
+    --dq-card: #ffffff;
+    --dq-ink: #1f2f46;
+    --dq-muted: #687d99;
+    --dq-accent: #b91c1c;
+    --dq-border: #e2e8f2;
+}
+
+.queue-shell {
+    background: radial-gradient(circle at 92% 2%, #ffe7e5 0%, rgba(255, 231, 229, 0) 38%), var(--dq-bg);
+    border-radius: 24px;
+    padding: 22px;
+}
+
+.queue-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.eyebrow {
+    margin: 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dq-accent);
+    font-weight: 800;
+}
+
+.queue-head h1 {
+    margin: 6px 0 8px;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.65rem, 2.4vw, 2.2rem);
+    color: var(--dq-ink);
+}
+
+.sub {
+    margin: 0;
+    color: var(--dq-muted);
+    max-width: 700px;
+}
+
+.queue-metrics {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.metric-card {
+    min-width: 122px;
+    border: 1px solid var(--dq-border);
+    border-radius: 14px;
+    background: #fff;
+    padding: 9px 11px;
+}
+
+.metric-card span {
+    display: block;
+    font-size: 0.72rem;
+    color: #7a8ca5;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+}
+
+.metric-card strong {
+    display: block;
+    font-size: 1rem;
+    color: #293a52;
+    margin-top: 2px;
+}
+
+.queue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 12px;
+}
+
+.queue-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+    border: 1px solid var(--dq-border);
+    background: var(--dq-card);
+    padding: 14px;
+    box-shadow: 0 8px 22px rgba(21, 35, 58, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.queue-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(21, 35, 58, 0.12);
+}
+
+.queue-top {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.patient-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #ffe8e7;
+    color: #a51818;
+    font-size: 0.78rem;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.queue-title h3 {
+    margin: 0;
+    font-size: 0.97rem;
+    color: #26374d;
+    font-weight: 800;
+}
+
+.queue-title p {
+    margin: 1px 0 0;
+    font-size: 0.79rem;
+    color: #788ba6;
+}
+
+.state-pill {
+    margin-left: auto;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #247a43;
+    background: #e9f6ee;
+    border-radius: 999px;
+    padding: 4px 8px;
+}
+
+.queue-preview {
+    margin-top: 12px;
+    color: #546b86;
+    font-size: 0.83rem;
+    line-height: 1.56;
+    min-height: 42px;
+}
+
+.queue-foot {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.76rem;
+    color: #7b8ea7;
+}
+
+.open-link {
+    color: #a51818;
+    font-weight: 700;
+}
+
+.empty-state {
+    border: 1px dashed #cfdae9;
+    border-radius: 18px;
+    background: #fff;
+    text-align: center;
+    padding: 34px 20px;
+}
+
+.empty-icon {
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 10px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    background: #f3f7fd;
+    color: #93a5be;
+}
+
+.empty-state h3 {
+    margin: 0 0 4px;
+    font-family: 'Fraunces', serif;
+    color: #2b3d54;
+}
+
+.empty-state p {
+    margin: 0;
+    color: #6b8099;
+}
+
+@media (max-width: 991px) {
+    .queue-shell {
+        padding: 16px;
+    }
+}
+</style>
 {% endblock %}

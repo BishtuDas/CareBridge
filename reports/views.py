@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from .ai import summarize_text
+from .ai import summarize_for_doctor, summarize_text
 from .forms import ReportUploadForm
 from .models import Report
 from .utils import extract_text
@@ -24,6 +24,10 @@ def upload_report(request):
             report.extracted_text = extracted or ""
             summary = summarize_text(report.extracted_text)
             report.summary = summary if summary else "Could not generate summary."
+            doctor_summary = summarize_for_doctor(report.extracted_text)
+            report.doctor_summary = (
+                doctor_summary if doctor_summary else "Could not generate doctor summary."
+            )
             report.save()
             return render(request, "reports/upload_result.html", {"report": report})
     else:

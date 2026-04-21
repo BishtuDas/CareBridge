@@ -4,41 +4,270 @@
 {% block header_title %}Inbox{% endblock %}
 
 {% block content %}
-<div class="row align-items-center mb-4 animate__animated animate__fadeIn">
-    <div class="col-md-8">
-        <h1 style="font-family: Georgia, serif; font-weight: 800; font-size: 2rem; color: #1a1a1a;">Care Threads</h1>
-        <p class="text-muted mb-0">Your active conversations with doctors.</p>
-    </div>
-    <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="{% url 'chat_start' %}" class="btn btn-danger rounded-pill px-4 fw-bold shadow-sm" style="background: #b91c1c; border: none;">
-            <i class="fa-solid fa-plus me-2"></i> New Consultation
-        </a>
-    </div>
-</div>
-
-<div class="row g-3">
-    {% for chat in chats %}
-    <div class="col-xl-6">
-        <a href="{% url 'chat_detail' chat.id %}" class="card border-0 rounded-4 shadow-sm p-4 text-decoration-none text-dark animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-                <div>
-                    <div class="fw-bold">Dr. {{ chat.doctor.username }}</div>
-                    <div class="small text-muted">Patient: {% if chat.child %}{{ chat.child.name }}{% else %}{{ request.user.username }}{% endif %}</div>
-                </div>
-                <span class="badge bg-light text-dark fw-bold">Active</span>
-            </div>
-            <div class="small text-muted">{{ chat.message_set.last.text|truncatechars:90 }}</div>
-            <div class="small text-muted mt-2"><i class="fa-regular fa-clock me-1"></i> {{ chat.message_set.last.created_at|timesince }} ago</div>
-        </a>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="p-5 text-center bg-white rounded-5 shadow-sm">
-            <i class="fa-solid fa-message-slash fa-3x text-light mb-3"></i>
-            <h3 class="fw-bold">No active threads</h3>
-            <p class="text-muted">You haven't started any clinical conversations yet.</p>
+<section class="threads-shell animate__animated animate__fadeIn">
+    <header class="threads-head">
+        <div>
+            <p class="eyebrow">Patient Console</p>
+            <h1>Care Threads</h1>
+            <p class="sub">Track doctor replies, continue ongoing care discussions, or start a new consultation.</p>
         </div>
+        <div class="head-actions">
+            <span class="count-pill"><i class="fa-solid fa-bell"></i> {{ chats.count }} active</span>
+            <a href="{% url 'chat_start' %}" class="new-btn">
+                <i class="fa-solid fa-plus"></i> New Consultation
+            </a>
+        </div>
+    </header>
+
+    {% if chats %}
+    <div class="threads-grid">
+        {% for chat in chats %}
+        {% with last_msg=chat.message_set.last %}
+        <a href="{% url 'chat_detail' chat.id %}" class="thread-card animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0 }}00ms;">
+            <div class="card-top">
+                <div class="avatar-pill">Dr</div>
+                <div class="title-wrap">
+                    <h3>Dr. {{ chat.doctor.username }}</h3>
+                    <p>{% if chat.child %}Patient: {{ chat.child.name }}{% else %}Patient: {{ request.user.username }}{% endif %}</p>
+                </div>
+                <span class="status">Active</span>
+            </div>
+
+            <div class="preview">
+                {% if last_msg %}
+                    {{ last_msg.text|truncatechars:115 }}
+                {% else %}
+                    No messages yet. Tap to open this consultation.
+                {% endif %}
+            </div>
+
+            <div class="card-foot">
+                <span>
+                    <i class="fa-regular fa-clock"></i>
+                    {% if last_msg %}{{ last_msg.created_at|timesince }} ago{% else %}Just created{% endif %}
+                </span>
+                <span class="open-thread">Open Thread <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </a>
+        {% endwith %}
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon"><i class="fa-regular fa-message"></i></div>
+        <h3>No active threads yet</h3>
+        <p>Start your first consultation to connect with a doctor and keep all care updates in one place.</p>
+        <a href="{% url 'chat_start' %}" class="new-btn mt-2">
+            <i class="fa-solid fa-plus"></i> Start First Consultation
+        </a>
+    </div>
+    {% endif %}
+</section>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
+
+:root {
+    --pt-bg: #f4f7fb;
+    --pt-card: #ffffff;
+    --pt-ink: #1f2e44;
+    --pt-muted: #677c97;
+    --pt-accent: #c62828;
+    --pt-border: #e3e9f3;
+}
+
+.threads-shell {
+    background: radial-gradient(circle at 92% 0%, #ffe6e2 0%, rgba(255, 230, 226, 0) 40%), var(--pt-bg);
+    border-radius: 24px;
+    padding: 22px;
+}
+
+.threads-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.eyebrow {
+    margin: 0;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--pt-accent);
+    font-weight: 800;
+}
+
+.threads-head h1 {
+    margin: 6px 0 8px;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.65rem, 2.4vw, 2.2rem);
+    color: var(--pt-ink);
+}
+
+.sub {
+    margin: 0;
+    color: var(--pt-muted);
+    max-width: 660px;
+}
+
+.head-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.count-pill {
+    display: inline-flex;
+    gap: 7px;
+    align-items: center;
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--pt-border);
+    color: #506680;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.new-btn {
+    display: inline-flex;
+    gap: 7px;
+    align-items: center;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #c62828, #ef5350);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border: none;
+}
+
+.threads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 12px;
+}
+
+.thread-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--pt-card);
+    border: 1px solid var(--pt-border);
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 7px 20px rgba(22, 37, 61, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thread-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(22, 37, 61, 0.1);
+}
+
+.card-top {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.avatar-pill {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #ffe9e9;
+    color: #b71c1c;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.title-wrap h3 {
+    margin: 0;
+    font-size: 0.98rem;
+    color: #26354d;
+    font-weight: 800;
+}
+
+.title-wrap p {
+    margin: 1px 0 0;
+    font-size: 0.79rem;
+    color: #7a8aa2;
+}
+
+.status {
+    margin-left: auto;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #247a43;
+    background: #e8f6ee;
+    border-radius: 999px;
+    padding: 4px 8px;
+}
+
+.preview {
+    margin-top: 12px;
+    font-size: 0.83rem;
+    color: #556a84;
+    line-height: 1.55;
+    min-height: 40px;
+}
+
+.card-foot {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.76rem;
+    color: #7c8ea7;
+}
+
+.open-thread {
+    color: #b71c1c;
+    font-weight: 700;
+}
+
+.empty-state {
+    border: 1px dashed #cfd9e8;
+    border-radius: 18px;
+    background: #fff;
+    padding: 34px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 10px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    color: #9aa8be;
+    background: #f2f6fd;
+}
+
+.empty-state h3 {
+    margin: 0 0 4px;
+    color: #2b3d55;
+    font-family: 'Fraunces', serif;
+}
+
+.empty-state p {
+    margin: 0 0 12px;
+    color: #6d819a;
+}
+
+@media (max-width: 991px) {
+    .threads-shell {
+        padding: 16px;
+    }
+}
+</style>
 {% endblock %}

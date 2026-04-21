@@ -10,22 +10,39 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+
+def _split_env_list(value):
+    return [item.strip() for item in (value or "").split(",") if item.strip()]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from project root regardless of current working directory.
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-tk46o1sp6-(@c$&4p$atn_1(_#1*mqy^3rclyy(j^5f%7xn=(p"
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-tk46o1sp6-(@c$&4p$atn_1(_#1*mqy^3rclyy(j^5f%7xn=(p",
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = _split_env_list(
+    os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,ai.vayunex.com")
+)
+
+CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host not in {"localhost", "127.0.0.1"}]
 
 
 # Application definition
@@ -133,3 +150,6 @@ AUTH_USER_MODEL = "users.User"
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/dashboard/"
 LOGOUT_REDIRECT_URL = "/login/"
+
+# OpenAI key used by reports/chat AI helpers.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")

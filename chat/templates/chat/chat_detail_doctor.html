@@ -46,6 +46,69 @@
     }
     .bubble-other { background: #f1f3f5; color: #333; border-bottom-left-radius: 4px; }
     .bubble-me { background: #991b1b; color: white; border-bottom-right-radius: 4px; }
+
+    .file-bubble {
+        max-width: 360px;
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 14px;
+        background: rgba(255,255,255,0.98);
+        padding: 12px;
+        color: #222;
+    }
+    .bubble-me .file-bubble {
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.18);
+        color: white;
+    }
+    .file-bubble-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .file-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #fff0f0;
+        color: #b91c1c;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+    }
+    .bubble-me .file-icon {
+        background: rgba(255,255,255,0.16);
+        color: white;
+    }
+    .file-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+    .file-name {
+        font-size: 0.9rem;
+        font-weight: 700;
+        word-break: break-word;
+    }
+    .file-caption {
+        font-size: 0.76rem;
+        opacity: 0.8;
+    }
+    .ai-note {
+        margin-top: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: #fff8f8;
+        border: 1px solid #f4dddd;
+        color: #7a4444;
+        font-size: 0.84rem;
+        line-height: 1.45;
+    }
+    .bubble-me .ai-note {
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.16);
+        color: rgba(255,255,255,0.96);
+    }
     
     .timestamp { font-size: 0.7rem; color: #aaa; margin-top: 6px; }
 
@@ -73,6 +136,78 @@
     }
     .chat-input:focus { background: white; border-color: #b91c1c; }
     .send-btn { color: #b91c1c; font-size: 1.5rem; border:none; background:none; }
+
+    .ai-draft-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+    .ai-generated-badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: #8a1717;
+        background: #ffecec;
+        border: 1px solid #f6d0d0;
+        border-radius: 999px;
+        padding: 4px 8px;
+        margin-bottom: 8px;
+    }
+    .ai-option-wrap {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 8px 0;
+    }
+    .ai-option-btn {
+        border: 1px solid #f2bcbc;
+        background: #fff5f5;
+        color: #9b1c1c;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-align: left;
+    }
+    .ai-suggestion-card {
+        max-width: 760px;
+        border: 1px solid #f1cccc;
+        background: #fff6f6;
+        border-radius: 14px;
+        padding: 12px;
+    }
+    .ai-suggestion-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+    .ai-suggestion-title {
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: #8a1717;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .ai-meta {
+        font-size: 0.74rem;
+        color: #7a5656;
+        margin-bottom: 8px;
+    }
+    .ai-preview {
+        width: 100%;
+        border: 1px solid #efcaca;
+        border-radius: 10px;
+        background: #fff;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        color: #333;
+        line-height: 1.45;
+        white-space: pre-wrap;
+        min-height: 60px;
+    }
 
     /* FLOATING AI HELPER */
     .ai-float-btn {
@@ -120,6 +255,65 @@
         border: none; background: #b91c1c; color: white; border-radius: 10px;
         padding: 8px 12px; font-size: 0.85rem; font-weight: 700;
     }
+    .doctor-note-status {
+        font-size: 0.78rem;
+        color: #7a5656;
+    }
+    .note-template-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+    .note-template-btn {
+        border: 1px solid #f0c7c7;
+        background: #fff8f8;
+        color: #8a1717;
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+    .note-template-btn.active {
+        background: #b91c1c;
+        color: white;
+        border-color: #b91c1c;
+    }
+    .doctor-notes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+    .doctor-notes-grid textarea,
+    .doctor-notes-grid select {
+        width: 100%;
+        border: 1px solid #edd0d0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-size: 0.84rem;
+        background: white;
+        outline: none;
+    }
+    .doctor-notes-grid textarea {
+        min-height: 72px;
+        resize: vertical;
+    }
+    .doctor-notes-grid textarea:focus,
+    .doctor-notes-grid select:focus {
+        border-color: #b91c1c;
+    }
+    .notes-col-span {
+        grid-column: span 2;
+    }
+
+    @media (max-width: 768px) {
+        .doctor-notes-grid {
+            grid-template-columns: 1fr;
+        }
+        .notes-col-span {
+            grid-column: span 1;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -143,7 +337,7 @@
     <div class="ai-summary-pinned">
         <span class="ai-badge"><i class="fa-solid fa-robot me-1"></i> AI Triage Summary</span>
         <p class="summary-text" style="font-size: 0.95rem; color: #444; line-height: 1.6; margin: 0;">
-            {{ reports.0.summary|cut:"**"|cut:"*"|truncatechars:150 }}
+            {{ reports.0.doctor_summary|default:reports.0.summary|cut:"**"|cut:"*"|truncatechars:150 }}
         </p>
         {% if reports.0.summary %}
         <button
@@ -166,6 +360,9 @@
         <a href="{% url 'upload_report' %}?child={{ chat.child.id|default:'' }}" class="btn-action"><i class="fa-solid fa-paperclip"></i> Clinical File</a>
         <button class="btn-action"><i class="fa-solid fa-calendar-plus"></i> Propose Visit</button>
         <button class="btn-action"><i class="fa-solid fa-file-prescription"></i> e-Prescribe</button>
+        <button class="btn-action" type="button" data-bs-toggle="modal" data-bs-target="#doctorNotesModal">
+            <i class="fa-solid fa-notes-medical"></i> Doctor Notes
+        </button>
     </div>
 
     <form method="post" class="sticky-chat-input" id="chat-form">
@@ -191,7 +388,7 @@
     <div class="ai-summary">
         <div class="fw-bold mb-1">Latest Summary</div>
         {% if reports %}
-        <div>{{ reports.0.summary|default:"No summary available."|cut:"**"|cut:"*"|truncatechars:200 }}</div>
+        <div>{{ reports.0.doctor_summary|default:reports.0.summary|default:"No summary available."|cut:"**"|cut:"*"|truncatechars:200 }}</div>
         {% else %}
         <div>No report summary available.</div>
         {% endif %}
@@ -211,6 +408,66 @@
     </form>
 </div>
 
+<div class="modal fade" id="doctorNotesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 22px; overflow: hidden;">
+            <div class="modal-header" style="background: #fff5f5; border-bottom: 1px solid #ffe1e1;">
+                <div>
+                    <h5 class="modal-title mb-1" style="color: #991b1b; font-weight: 800;">Doctor Notes</h5>
+                    <div class="doctor-note-status" id="doctor-note-status">Loading note...</div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <label class="small text-muted mb-0 d-flex align-items-center gap-2">
+                        <input type="checkbox" id="note-finalized"> Finalized
+                    </label>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body p-4 p-md-4" style="background: #fffafb;">
+                <div class="note-template-row">
+                    <button type="button" class="note-template-btn" data-note-template="initial_assessment">Initial Assessment</button>
+                    <button type="button" class="note-template-btn" data-note-template="follow_up">Follow-up</button>
+                    <button type="button" class="note-template-btn" data-note-template="diagnosis">Diagnosis</button>
+                </div>
+                <div class="doctor-notes-grid">
+                    <div>
+                        <label class="small text-muted mb-1">Template</label>
+                        <select id="note-template-type">
+                            <option value="initial_assessment">Initial Assessment</option>
+                            <option value="follow_up">Follow-up</option>
+                            <option value="diagnosis">Diagnosis</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="small text-muted mb-1">Chief Complaint</label>
+                        <textarea id="note-chief-complaint" placeholder="Parent-reported concern"></textarea>
+                    </div>
+                    <div>
+                        <label class="small text-muted mb-1">Clinical Observations</label>
+                        <textarea id="note-clinical-observations" placeholder="Report findings and observed details"></textarea>
+                    </div>
+                    <div>
+                        <label class="small text-muted mb-1">Assessment</label>
+                        <textarea id="note-assessment" placeholder="Clinical impression"></textarea>
+                    </div>
+                    <div class="notes-col-span">
+                        <label class="small text-muted mb-1">Plan</label>
+                        <textarea id="note-plan" placeholder="Treatment plan and instructions"></textarea>
+                    </div>
+                    <div class="notes-col-span">
+                        <label class="small text-muted mb-1">Follow-up Instructions</label>
+                        <textarea id="note-follow-up" placeholder="Timeline and red flags"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between align-items-center" style="background: white; border-top: 1px solid #f2d8d8;">
+                <div class="small text-muted">Autosaves while you type and syncs to the patient record.</div>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="background: #b91c1c; border: none; font-weight: 700;">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% if reports and reports.0.summary %}
 <div class="modal fade" id="chatSummaryModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -224,7 +481,7 @@
                     {{ chat.parent.full_name|default:chat.parent.username }} • {{ chat.child.name|default:"Child" }}
                 </div>
                 <div>
-                    {{ reports.0.summary|cut:"**"|cut:"*"|linebreaksbr }}
+                    {{ reports.0.doctor_summary|default:reports.0.summary|cut:"**"|cut:"*"|linebreaksbr }}
                 </div>
             </div>
         </div>
@@ -237,16 +494,31 @@
 <script>
     const chatId = {{ chat.id }};
     const chatBox = document.getElementById("chat-box");
-    let lastMessageCount = 0;
+    let lastRenderSignature = "";
+    let noteTemplateDefaults = {};
+    let isApplyingTemplate = false;
+    let noteSaveTimeout = null;
+
+    const noteStatus = document.getElementById("doctor-note-status");
+    const noteTemplateType = document.getElementById("note-template-type");
+    const noteChiefComplaint = document.getElementById("note-chief-complaint");
+    const noteClinicalObservations = document.getElementById("note-clinical-observations");
+    const noteAssessment = document.getElementById("note-assessment");
+    const notePlan = document.getElementById("note-plan");
+    const noteFollowUp = document.getElementById("note-follow-up");
+    const noteFinalized = document.getElementById("note-finalized");
+    const noteTemplateButtons = Array.from(document.querySelectorAll("[data-note-template]"));
 
     function loadMessages() {
         fetch(`/chat/${chatId}/messages/`)
             .then(res => res.json())
             .then(data => {
                 if (!data.messages) return;
-                
-                if (data.messages.length === lastMessageCount) return;
-                lastMessageCount = data.messages.length;
+
+                const draftIds = (data.pending_ai_drafts || []).map(d => d.id).join("-");
+                const signature = `${data.messages.length}|${draftIds}`;
+                if (signature === lastRenderSignature) return;
+                lastRenderSignature = signature;
 
                 chatBox.innerHTML = "";
                 data.messages.forEach(msg => {
@@ -255,7 +527,58 @@
 
                     const bubble = document.createElement("div");
                     bubble.className = "chat-bubble " + (msg.is_me ? "bubble-me" : "bubble-other");
-                    bubble.innerText = msg.text;
+
+                    if (msg.attachment_url) {
+                        const fileCard = document.createElement("div");
+                        fileCard.className = "file-bubble";
+
+                        const head = document.createElement("div");
+                        head.className = "file-bubble-head";
+
+                        const icon = document.createElement("div");
+                        icon.className = "file-icon";
+                        icon.innerHTML = '<i class="fa-solid fa-file-arrow-up"></i>';
+
+                        const meta = document.createElement("div");
+                        meta.className = "file-meta";
+
+                        const fileName = document.createElement("div");
+                        fileName.className = "file-name";
+                        fileName.innerText = msg.attachment_name || "Shared file";
+
+                        const fileCaption = document.createElement("div");
+                        fileCaption.className = "file-caption";
+                        fileCaption.innerText = msg.is_me ? "You shared a file" : "Parent shared a file";
+
+                        const link = document.createElement("a");
+                        link.href = msg.attachment_url;
+                        link.target = "_blank";
+                        link.rel = "noopener";
+                        link.className = "file-caption";
+                        link.innerText = "Open file";
+
+                        meta.appendChild(fileName);
+                        meta.appendChild(fileCaption);
+                        meta.appendChild(link);
+                        head.appendChild(icon);
+                        head.appendChild(meta);
+                        fileCard.appendChild(head);
+                        bubble.appendChild(fileCard);
+                    }
+
+                    if (msg.text) {
+                        const textNode = document.createElement("div");
+                        textNode.style.marginTop = msg.attachment_url ? "10px" : "0";
+                        textNode.innerText = (msg.is_ai_generated ? "[AI] " : "") + msg.text;
+                        bubble.appendChild(textNode);
+                    }
+
+                    if (msg.ai_generation_note) {
+                        const note = document.createElement("div");
+                        note.className = "ai-note";
+                        note.innerText = msg.ai_generation_note;
+                        bubble.appendChild(note);
+                    }
 
                     wrapper.appendChild(bubble);
                     
@@ -265,6 +588,48 @@
                     wrapper.appendChild(time);
 
                     chatBox.appendChild(wrapper);
+                });
+
+                (data.pending_ai_drafts || []).forEach(draft => {
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "msg-wrapper msg-left";
+
+                    const card = document.createElement("div");
+                    card.className = "ai-suggestion-card";
+                    card.id = `ai-draft-${draft.id}`;
+
+                    const urgency = (draft.urgency || "low").toUpperCase();
+                    const summary = draft.concern_summary || "No summary";
+                    const generated = draft.generated_reply || "";
+
+                    card.innerHTML = `
+                        <div class="ai-suggestion-head">
+                            <div class="ai-suggestion-title">AI Suggested Reply (Doctor only)</div>
+                            <span class="ai-generated-badge">AI generated</span>
+                        </div>
+                        <div class="ai-meta"><strong>Urgency:</strong> ${urgency} | <strong>Summary:</strong> ${summary}</div>
+                        <div class="ai-option-wrap" id="ai-options-${draft.id}"></div>
+                        <div class="ai-preview" id="ai-draft-text-${draft.id}">${generated}</div>
+                        <div class="ai-draft-actions">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="sendAiDraft(${draft.id}, true)">Send to Patient</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="removeAiDraft(${draft.id})">Remove</button>
+                        </div>
+                    `;
+
+                    wrapper.appendChild(card);
+                    chatBox.appendChild(wrapper);
+
+                    const optionWrap = card.querySelector(`#ai-options-${draft.id}`);
+                    (draft.reply_options || []).slice(0, 3).forEach((optionText) => {
+                        const btn = document.createElement("button");
+                        btn.type = "button";
+                        btn.className = "ai-option-btn";
+                        btn.innerText = optionText;
+                        btn.addEventListener("click", () => {
+                            applyAiOption(draft.id, optionText);
+                        });
+                        optionWrap.appendChild(btn);
+                    });
                 });
 
                 chatBox.scrollTop = chatBox.scrollHeight;
@@ -286,6 +651,184 @@
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
         return "";
+    }
+
+    function getDoctorNotePayload() {
+        return {
+            template_type: noteTemplateType.value,
+            chief_complaint: noteChiefComplaint.value.trim(),
+            clinical_observations: noteClinicalObservations.value.trim(),
+            assessment: noteAssessment.value.trim(),
+            plan: notePlan.value.trim(),
+            follow_up_instructions: noteFollowUp.value.trim(),
+            is_finalized: noteFinalized.checked,
+        };
+    }
+
+    function updateNoteStatus(text) {
+        noteStatus.innerText = text;
+    }
+
+    function applyTemplateDefaults(templateKey) {
+        const defaults = noteTemplateDefaults[templateKey];
+        if (!defaults) {
+            return;
+        }
+
+        isApplyingTemplate = true;
+        if (!noteChiefComplaint.value.trim()) {
+            noteChiefComplaint.value = defaults.chief_complaint || "";
+        }
+        if (!noteClinicalObservations.value.trim()) {
+            noteClinicalObservations.value = defaults.clinical_observations || "";
+        }
+        if (!noteAssessment.value.trim()) {
+            noteAssessment.value = defaults.assessment || "";
+        }
+        if (!notePlan.value.trim()) {
+            notePlan.value = defaults.plan || "";
+        }
+        if (!noteFollowUp.value.trim()) {
+            noteFollowUp.value = defaults.follow_up_instructions || "";
+        }
+        isApplyingTemplate = false;
+    }
+
+    function updateTemplateButtonState(templateKey) {
+        noteTemplateButtons.forEach((button) => {
+            button.classList.toggle("active", button.dataset.noteTemplate === templateKey);
+        });
+    }
+
+    function saveDoctorNote() {
+        updateNoteStatus("Saving...");
+        return fetch(`/chat/${chatId}/doctor-notes/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: JSON.stringify(getDoctorNotePayload()),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    updateNoteStatus(data.error);
+                    return;
+                }
+                updateNoteStatus("All changes saved to patient record");
+            })
+            .catch(() => {
+                updateNoteStatus("Autosave failed. Retrying on next change.");
+            });
+    }
+
+    function queueDoctorNoteSave() {
+        if (isApplyingTemplate) {
+            return;
+        }
+        updateNoteStatus("Unsaved changes...");
+        if (noteSaveTimeout) {
+            window.clearTimeout(noteSaveTimeout);
+        }
+        noteSaveTimeout = window.setTimeout(() => {
+            saveDoctorNote();
+        }, 700);
+    }
+
+    function hydrateDoctorNote(note) {
+        noteTemplateType.value = note.template_type || "initial_assessment";
+        updateTemplateButtonState(noteTemplateType.value);
+        noteChiefComplaint.value = note.chief_complaint || "";
+        noteClinicalObservations.value = note.clinical_observations || "";
+        noteAssessment.value = note.assessment || "";
+        notePlan.value = note.plan || "";
+        noteFollowUp.value = note.follow_up_instructions || "";
+        noteFinalized.checked = !!note.is_finalized;
+        updateNoteStatus("All changes saved to patient record");
+    }
+
+    function loadDoctorNote() {
+        fetch(`/chat/${chatId}/doctor-notes/`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    updateNoteStatus(data.error);
+                    return;
+                }
+                noteTemplateDefaults = data.template_defaults || {};
+                hydrateDoctorNote(data.note || {});
+                if (!(data.note && data.note.chief_complaint)) {
+                    applyTemplateDefaults(noteTemplateType.value);
+                    queueDoctorNoteSave();
+                }
+            })
+            .catch(() => {
+                updateNoteStatus("Unable to load doctor note.");
+            });
+    }
+
+    function sendAiDraft(draftId, edited) {
+        const textField = document.getElementById(`ai-draft-text-${draftId}`);
+        const editedText = textField ? textField.innerText.trim() : "";
+        fetch(`/chat/${chatId}/ai-draft/${draftId}/action/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: JSON.stringify({
+                action: "send",
+                edited_text: edited ? editedText : "",
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                lastRenderSignature = "";
+                loadMessages();
+            })
+            .catch(() => {
+                alert("Unable to send AI draft.");
+            });
+    }
+
+    function applyAiOption(draftId, text) {
+        const textField = document.getElementById(`ai-draft-text-${draftId}`);
+        if (!textField) {
+            return;
+        }
+        textField.innerText = text;
+    }
+
+    function removeAiDraft(draftId) {
+        const reason = window.prompt("Please enter reason for removal:");
+        if (!reason || !reason.trim()) {
+            return;
+        }
+        fetch(`/chat/${chatId}/ai-draft/${draftId}/action/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: JSON.stringify({ action: "remove", removal_reason: reason.trim() }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                lastRenderSignature = "";
+                loadMessages();
+            })
+            .catch(() => {
+                alert("Unable to remove AI draft.");
+            });
     }
 
     function addAiMessage(role, text) {
@@ -326,5 +869,31 @@
                 addAiMessage("assistant", "Unable to reach the AI helper.");
             });
     });
+
+    noteTemplateType.addEventListener("change", () => {
+        updateTemplateButtonState(noteTemplateType.value);
+        applyTemplateDefaults(noteTemplateType.value);
+        queueDoctorNoteSave();
+    });
+    noteTemplateButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            noteTemplateType.value = button.dataset.noteTemplate;
+            updateTemplateButtonState(noteTemplateType.value);
+            applyTemplateDefaults(noteTemplateType.value);
+            queueDoctorNoteSave();
+        });
+    });
+    [
+        noteChiefComplaint,
+        noteClinicalObservations,
+        noteAssessment,
+        notePlan,
+        noteFollowUp,
+    ].forEach((field) => {
+        field.addEventListener("input", queueDoctorNoteSave);
+    });
+    noteFinalized.addEventListener("change", queueDoctorNoteSave);
+
+    loadDoctorNote();
 </script>
 {% endblock %}

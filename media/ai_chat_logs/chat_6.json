@@ -1,0 +1,28 @@
+[
+  {
+    "source_message_id": 16,
+    "patient_message": "hi",
+    "analysis": {
+      "concern_summary": "hi",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: Patient Update: Souvik Chatterjee\n\nDear Dr. Sharma,\n\nSouvik Chatterjee, 38, presented with a chronic dry cough and mild fever for 5 days. He is diagnosed with an acute viral upper respiratory infection. The treatment plan includes paracetamol, cough syrup, hydration, rest, and steam inhalation. A follow-up is scheduled in 5 days or sooner if symptoms worsen.\n\nPlease let me know if you need any further information.\n\nBest regards,  \n[Your Name]  \n[Your Position]",
+    "status": "pending",
+    "created_at": "2026-04-21T18:23:04.534932+00:00"
+  },
+  {
+    "source_message_id": 18,
+    "patient_message": "hi",
+    "analysis": {
+      "concern_summary": "hi",
+      "urgency": "low",
+      "symptoms": [],
+      "recommended_next_step": "Doctor review required."
+    },
+    "generated_reply": "Subject: Patient Follow-Up: Souvik Chatterjee\n\nHi Dr. Sharma,\n\nSouvik Chatterjee, 38, presented with a chronic dry cough and mild fever. He has been diagnosed with an acute viral upper respiratory infection. Treatment includes paracetamol for fever, cough syrup, hydration, rest, and steam inhalation.\n\nHe is to follow up in 5 days or sooner if his symptoms worsen.\n\nPlease let me know if you need any further information.\n\nBest,  \n[Your Name]  \n[Your Position]",
+    "status": "pending",
+    "created_at": "2026-04-21T18:23:42.692105+00:00"
+  }
+]

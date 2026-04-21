@@ -8,6 +8,7 @@ class Report(models.Model):
     file = models.FileField(upload_to="reports/")
     extracted_text = models.TextField(blank=True)
     summary = models.TextField(blank=True)
+    doctor_summary = models.TextField(blank=True)
 
     def __str__(self):
         return f"Report for {self.child.name}"
